@@ -14,9 +14,9 @@ datasource db {
 }
 
 model User {
-  id              String           @id @default(uuid())
+  id              Int              @id @default(autoincrement())
   email           String           @unique
-  password        String
+  password_hash   String
   is_active       Boolean          @default(false)
   created_at      DateTime         @default(now())
   updated_at      DateTime         @updatedAt
@@ -26,21 +26,25 @@ model User {
 }
 
 model Admin {
-  id             String   @id @default(uuid())
-  email          String   @unique
+  id             Int       @id @default(autoincrement())
+  username       String    @unique
+  email          String    @unique
   password_hash  String
-  is_active      Boolean  @default(true)
+  first_name     String
+  last_name      String?
+  is_active      Boolean   @default(true)
+  is_creator     Boolean   @default(false)
 }
 
 model Profile {
-  id            String         @id @default(uuid())
+  id            Int            @id @default(autoincrement())
   name          String
-  user_id       String
+  user_id       Int
   avatar        String?
-  language_id   String
+  language_id   Int
   age           Int?
   is_active     Boolean        @default(true)
-  password      String?
+  password_hash String?
   created_at    DateTime       @default(now())
   is_main       Boolean        @default(false)
   user          User           @relation(fields: [user_id], references: [id])
@@ -49,16 +53,16 @@ model Profile {
 }
 
 model Language {
-  id       String    @id @default(uuid())
+  id       Int       @id @default(autoincrement())
   name     String    @unique
   profiles Profile[]
 }
 
 model Subscription {
-  id                  String            @id @default(uuid())
-  profile_id          String
-  plan_id            String
-  user_id            String
+  id                  Int               @id @default(autoincrement())
+  profile_id          Int
+  plan_id            Int
+  user_id            Int
   start_date         DateTime          @default(now())
   end_date           DateTime?
   auto_renew         Boolean           @default(true)
@@ -72,7 +76,7 @@ model Subscription {
 }
 
 model SubscriptionPlans {
-  id                 String         @id @default(uuid())
+  id                 Int            @id @default(autoincrement())
   name               String
   description        String?
   monthly_price      Decimal
@@ -85,10 +89,10 @@ model SubscriptionPlans {
 }
 
 model BillingHistory {
-  id                String        @id @default(uuid())
-  user_id          String
-  subscription_id   String
-  payment_method_id String
+  id                Int           @id @default(autoincrement())
+  user_id          Int
+  subscription_id   Int
+  payment_method_id Int
   amount           Decimal
   date             DateTime      @default(now())
   status           BillingStatus
@@ -98,30 +102,30 @@ model BillingHistory {
 }
 
 model PaymentMethod {
-  id              String           @id @default(uuid())
+  id              Int              @id @default(autoincrement())
   name            String
   billing_history BillingHistory[]
 }
 
 model Category {
-  id                 String            @id @default(uuid())
+  id                 Int               @id @default(autoincrement())
   name               String
   description        String?
-  parent_category_id String?
+  parent_category_id Int?
   parent_category    Category?         @relation("CategoryToCategory", fields: [parent_category_id], references: [id])
   sub_categories     Category[]        @relation("CategoryToCategory")
   category_content   CategoryContent[]
 }
 
 model CategoryContent {
-  id          String   @id @default(uuid())
-  category_id String
-  content_id  String
+  id          Int      @id @default(autoincrement())
+  category_id Int
+  content_id  Int
   category    Category @relation(fields: [category_id], references: [id])
 }
 
 model Genres {
-  id           String           @id @default(uuid())
+  id           Int             @id @default(autoincrement())
   name         String
   description  String?
   genre_images GenreImages[]
@@ -129,17 +133,17 @@ model Genres {
 }
 
 model GenreImages {
-  id        String  @id @default(uuid())
+  id        Int     @id @default(autoincrement())
   image_url String
-  genre_id  String
+  genre_id  Int
   is_main   Boolean @default(false)
   genre     Genres  @relation(fields: [genre_id], references: [id])
 }
 
 model ContentGenres {
-  id         String @id @default(uuid())
-  content_id String
-  genre_id   String
+  id         Int    @id @default(autoincrement())
+  content_id Int
+  genre_id   Int
   genre      Genres @relation(fields: [genre_id], references: [id])
 }
 

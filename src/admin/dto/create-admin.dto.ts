@@ -1,1 +1,6 @@
-export class CreateAdminDto {}
+export class CreateAdminDto {
+    email: string;
+    password: string;
+    first_name: string;
+    last_name: string;
+}
