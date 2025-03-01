@@ -1,0 +1,151 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String           @id @default(uuid())
+  email           String           @unique
+  password        String
+  is_active       Boolean          @default(false)
+  created_at      DateTime         @default(now())
+  updated_at      DateTime         @updatedAt
+  profiles        Profile[]
+  subscriptions   Subscription[]
+  billing_history BillingHistory[]
+}
+
+model Admin {
+  id             String   @id @default(uuid())
+  email          String   @unique
+  password_hash  String
+  is_active      Boolean  @default(true)
+}
+
+model Profile {
+  id            String         @id @default(uuid())
+  name          String
+  user_id       String
+  avatar        String?
+  language_id   String
+  age           Int?
+  is_active     Boolean        @default(true)
+  password      String?
+  created_at    DateTime       @default(now())
+  is_main       Boolean        @default(false)
+  user          User           @relation(fields: [user_id], references: [id])
+  language      Language       @relation(fields: [language_id], references: [id])
+  subscriptions Subscription[]
+}
+
+model Language {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  profiles Profile[]
+}
+
+model Subscription {
+  id                  String            @id @default(uuid())
+  profile_id          String
+  plan_id            String
+  user_id            String
+  start_date         DateTime          @default(now())
+  end_date           DateTime?
+  auto_renew         Boolean           @default(true)
+  is_active          Boolean           @default(true)
+  last_amount_paid   Decimal
+  subscription_source String?
+  profile            Profile           @relation(fields: [profile_id], references: [id])
+  plan               SubscriptionPlans @relation(fields: [plan_id], references: [id])
+  user               User              @relation(fields: [user_id], references: [id])
+  billing_history    BillingHistory[]
+}
+
+model SubscriptionPlans {
+  id                 String         @id @default(uuid())
+  name               String
+  description        String?
+  monthly_price      Decimal
+  max_profile        Int
+  max_screens        Int
+  download_enabled   Boolean        @default(false)
+  ads_enabled        Boolean        @default(false)
+  is_active         Boolean        @default(true)
+  subscriptions      Subscription[]
+}
+
+model BillingHistory {
+  id                String        @id @default(uuid())
+  user_id          String
+  subscription_id   String
+  payment_method_id String
+  amount           Decimal
+  date             DateTime      @default(now())
+  status           BillingStatus
+  subscription     Subscription  @relation(fields: [subscription_id], references: [id])
+  payment_method   PaymentMethod @relation(fields: [payment_method_id], references: [id])
+  user             User          @relation(fields: [user_id], references: [id])
+}
+
+model PaymentMethod {
+  id              String           @id @default(uuid())
+  name            String
+  billing_history BillingHistory[]
+}
+
+model Category {
+  id                 String            @id @default(uuid())
+  name               String
+  description        String?
+  parent_category_id String?
+  parent_category    Category?         @relation("CategoryToCategory", fields: [parent_category_id], references: [id])
+  sub_categories     Category[]        @relation("CategoryToCategory")
+  category_content   CategoryContent[]
+}
+
+model CategoryContent {
+  id          String   @id @default(uuid())
+  category_id String
+  content_id  String
+  category    Category @relation(fields: [category_id], references: [id])
+}
+
+model Genres {
+  id           String           @id @default(uuid())
+  name         String
+  description  String?
+  genre_images GenreImages[]
+  content_genres ContentGenres[]
+}
+
+model GenreImages {
+  id        String  @id @default(uuid())
+  image_url String
+  genre_id  String
+  is_main   Boolean @default(false)
+  genre     Genres  @relation(fields: [genre_id], references: [id])
+}
+
+model ContentGenres {
+  id         String @id @default(uuid())
+  content_id String
+  genre_id   String
+  genre      Genres @relation(fields: [genre_id], references: [id])
+}
+
+enum BillingStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
