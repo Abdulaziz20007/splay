@@ -30,13 +30,13 @@ model User {
 model Profile {
   id            Int             @id @default(autoincrement())
   name          String
-  userId        Int
-  user          User            @relation(fields: [userId], references: [id])
-  avatar        String
-  languageId    Int
-  language      Language        @relation(fields: [languageId], references: [id])
+  user_id       Int
+  user          User            @relation(fields: [user_id], references: [id])
+  avatar        String?
+  language_id   Int             @default(1)
+  language      Language        @relation(fields: [language_id], references: [id])
   age           Int
-  is_active     Boolean
+  is_active     Boolean         @default(false)
   password_hash String
   is_main       Boolean
   subscriptions Subscription[]
@@ -62,27 +62,27 @@ model Admin {
 }
 
 model BillingHistory {
-  id              Int           @id @default(autoincrement())
-  userId          Int
-  user            User          @relation(fields: [userId], references: [id])
-  subscriptionId  Int
-  subscription    Subscription  @relation(fields: [subscriptionId], references: [id])
-  paymentMethodId Int
-  paymentMethod   PaymentMethod @relation(fields: [paymentMethodId], references: [id])
-  amount          Int
-  status          String
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  id               Int           @id @default(autoincrement())
+  user_id          Int
+  user             User          @relation(fields: [user_id], references: [id])
+  subscription_id  Int
+  subscription     Subscription  @relation(fields: [subscription_id], references: [id])
+  payment_method_id Int
+  paymentMethod    PaymentMethod @relation(fields: [payment_method_id], references: [id])
+  amount           Int
+  status           String
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 
   @@map("billing_history")
 }
 
 model Subscription {
   id                  Int              @id @default(autoincrement())
-  profileId           Int
-  profile             Profile          @relation(fields: [profileId], references: [id])
-  planId              Int
-  plan                SubscriptionPlan @relation(fields: [planId], references: [id])
+  profile_id          Int
+  profile             Profile          @relation(fields: [profile_id], references: [id])
+  plan_id             Int
+  plan                SubscriptionPlan @relation(fields: [plan_id], references: [id])
   start_date          DateTime
   end_date            DateTime
   auto_renew          Boolean
@@ -135,27 +135,27 @@ model Language {
 }
 
 model CategoryContent {
-  id         Int      @id @default(autoincrement())
-  categoryId Int
-  category   Category @relation(fields: [categoryId], references: [id])
-  contentId  Int
-  content    Content  @relation(fields: [contentId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  category_id Int
+  category    Category @relation(fields: [category_id], references: [id])
+  content_id  Int
+  content     Content  @relation(fields: [content_id], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@map("category_content")
 }
 
 model Category {
-  id               Int               @id @default(autoincrement())
-  name             String
-  description      String
-  parentCategoryId Int
-  parentCategory   Category?         @relation("CategoryToCategory", fields: [parentCategoryId], references: [id])
-  childCategories  Category[]        @relation("CategoryToCategory")
-  contents         CategoryContent[]
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  id                Int               @id @default(autoincrement())
+  name              String
+  description       String
+  parent_category_id Int
+  parentCategory    Category?         @relation("CategoryToCategory", fields: [parent_category_id], references: [id])
+  childCategories   Category[]        @relation("CategoryToCategory")
+  contents          CategoryContent[]
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
 
   @@map("categories")
 }
@@ -169,8 +169,8 @@ model Content {
   trailer_url       String
   average_rating    Float
   is_available      Boolean
-  audioId           Int
-  audio             Audio             @relation("ContentToAudio", fields: [audioId], references: [id])
+  audio_id          Int
+  audio             Audio             @relation("ContentToAudio", fields: [audio_id], references: [id])
   country_of_origin String
   categories        CategoryContent[]
   contentAudios     ContentAudio[]
@@ -186,37 +186,37 @@ model Content {
 }
 
 model ContentAudio {
-  id           Int        @id @default(autoincrement())
-  audioTrackId Int
-  audioTrack   AudioTrack @relation(fields: [audioTrackId], references: [id])
-  contentId    Int
-  content      Content    @relation(fields: [contentId], references: [id])
-  is_main      Boolean
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id            Int        @id @default(autoincrement())
+  audio_track_id Int
+  audioTrack    AudioTrack @relation(fields: [audio_track_id], references: [id])
+  content_id    Int
+  content       Content    @relation(fields: [content_id], references: [id])
+  is_main       Boolean
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 
   @@map("content_audio")
 }
 
 model Audio {
-  id           Int          @id @default(autoincrement())
-  audioTrackId Int          @unique
-  audioTrack   AudioTrack?  @relation("AudioToMainTrack", fields: [audioTrackId], references: [id])
-  contentId    Int
-  content      Content      @relation("AudioToContent", fields: [contentId], references: [id])
-  is_main      Boolean
-  contents     Content[]    @relation("ContentToAudio")
-  audioTracks  AudioTrack[] @relation("AudioToTracks")
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id            Int          @id @default(autoincrement())
+  audio_track_id Int          @unique
+  audioTrack    AudioTrack?  @relation("AudioToMainTrack", fields: [audio_track_id], references: [id])
+  content_id    Int
+  content       Content      @relation("AudioToContent", fields: [content_id], references: [id])
+  is_main       Boolean
+  contents      Content[]    @relation("ContentToAudio")
+  audioTracks   AudioTrack[] @relation("AudioToTracks")
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 
   @@map("audio")
 }
 
 model AudioTrack {
   id            Int            @id @default(autoincrement())
-  languageId    Int
-  language      Language       @relation(fields: [languageId], references: [id])
+  language_id   Int
+  language      Language       @relation(fields: [language_id], references: [id])
   audio         Audio?         @relation("AudioToMainTrack")
   file_size     Int
   duration      Int
@@ -232,8 +232,8 @@ model AudioTrack {
 model GenreImage {
   id        Int      @id @default(autoincrement())
   image_url String
-  genreId   Int
-  genre     Genre    @relation(fields: [genreId], references: [id])
+  genre_id  Int
+  genre     Genre    @relation(fields: [genre_id], references: [id])
   is_main   Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -254,35 +254,35 @@ model Genre {
 }
 
 model ContentGenre {
-  id        Int      @id @default(autoincrement())
-  contentId Int
-  content   Content  @relation(fields: [contentId], references: [id])
-  genreId   Int
-  genre     Genre    @relation(fields: [genreId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  content_id Int
+  content    Content  @relation(fields: [content_id], references: [id])
+  genre_id   Int
+  genre      Genre    @relation(fields: [genre_id], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@map("content_genres")
 }
 
 model Device {
-  id          Int      @id @default(autoincrement())
-  userId      Int
-  user        User     @relation(fields: [userId], references: [id])
-  device_type String
-  device_name String
-  ip_address  String
-  last_active DateTime
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  user_id      Int
+  user         User     @relation(fields: [user_id], references: [id])
+  device_type  String
+  device_name  String
+  ip_address   String
+  last_active  DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("devices")
 }
 
 model SearchHistory {
   id           Int      @id @default(autoincrement())
-  profileId    Int
-  profile      Profile  @relation(fields: [profileId], references: [id])
+  profile_id   Int
+  profile      Profile  @relation(fields: [profile_id], references: [id])
   search_query String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -292,12 +292,12 @@ model SearchHistory {
 
 model WatchHistory {
   id                Int      @id @default(autoincrement())
-  profileId         Int
-  profile           Profile  @relation(fields: [profileId], references: [id])
-  contentId         Int
-  content           Content  @relation(fields: [contentId], references: [id])
-  episodeId         Int
-  episode           Episode  @relation(fields: [episodeId], references: [id])
+  profile_id        Int
+  profile           Profile  @relation(fields: [profile_id], references: [id])
+  content_id        Int
+  content           Content  @relation(fields: [content_id], references: [id])
+  episode_id        Int
+  episode           Episode  @relation(fields: [episode_id], references: [id])
   watched_seconds   Int
   last_watched_time DateTime
   is_completed      Boolean
@@ -310,10 +310,10 @@ model WatchHistory {
 
 model Rating {
   id           Int      @id @default(autoincrement())
-  contentId    Int
-  content      Content  @relation(fields: [contentId], references: [id])
-  profileId    Int
-  profile      Profile  @relation(fields: [profileId], references: [id])
+  content_id   Int
+  content      Content  @relation(fields: [content_id], references: [id])
+  profile_id   Int
+  profile      Profile  @relation(fields: [profile_id], references: [id])
   rating_value Int
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -323,8 +323,8 @@ model Rating {
 
 model Series {
   id            Int      @id @default(autoincrement())
-  contentId     Int      @unique
-  content       Content  @relation(fields: [contentId], references: [id])
+  content_id    Int      @unique
+  content       Content  @relation(fields: [content_id], references: [id])
   total_seasons Int
   seasons       Season[]
   createdAt     DateTime @default(now())
@@ -336,8 +336,8 @@ model Series {
 model Season {
   id             Int       @id @default(autoincrement())
   title          String
-  seriesId       Int
-  series         Series    @relation(fields: [seriesId], references: [id])
+  series_id      Int
+  series         Series    @relation(fields: [series_id], references: [id])
   description    String
   season_number  Int
   total_episodes Int
@@ -354,8 +354,8 @@ model Episode {
   id             Int            @id @default(autoincrement())
   duration       Int
   episode_number Int
-  seasonId       Int
-  season         Season         @relation(fields: [seasonId], references: [id])
+  season_id      Int
+  season         Season         @relation(fields: [season_id], references: [id])
   episodeAudios  EpisodeAudio[]
   watchHistory   WatchHistory[]
   createdAt      DateTime       @default(now())
@@ -365,14 +365,14 @@ model Episode {
 }
 
 model EpisodeAudio {
-  id           Int        @id @default(autoincrement())
-  episodeId    Int
-  episode      Episode    @relation(fields: [episodeId], references: [id])
-  audioTrackId Int
-  audioTrack   AudioTrack @relation(fields: [audioTrackId], references: [id])
-  is_main      Boolean
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id            Int        @id @default(autoincrement())
+  episode_id    Int
+  episode       Episode    @relation(fields: [episode_id], references: [id])
+  audio_track_id Int
+  audioTrack    AudioTrack @relation(fields: [audio_track_id], references: [id])
+  is_main       Boolean
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 
   @@map("episode_audio")
 }

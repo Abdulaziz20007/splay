@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
-import { CreateLanguageDto } from './dto/create-language.dto';
-import { UpdateLanguageDto } from './dto/update-language.dto';
+import { Injectable } from "@nestjs/common";
+import { CreateLanguageDto } from "./dto/create-language.dto";
+import { UpdateLanguageDto } from "./dto/update-language.dto";
+import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
 export class LanguageService {
+  constructor(private prismaService: PrismaService) {}
   create(createLanguageDto: CreateLanguageDto) {
-    return 'This action adds a new language';
+    return this.prismaService.language.create({
+      data: {
+        ...createLanguageDto,
+      },
+    });
   }
 
   findAll() {
-    return `This action returns all language`;
+    return this.prismaService.language.findMany();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} language`;
+    return this.prismaService.language.findUnique({
+      where: { id },
+    });
   }
 
   update(id: number, updateLanguageDto: UpdateLanguageDto) {
-    return `This action updates a #${id} language`;
+    return this.prismaService.language.update({
+      where: { id },
+      data: {
+        ...updateLanguageDto,
+      },
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} language`;
+    return this.prismaService.language.delete({
+      where: { id },
+    });
   }
 }

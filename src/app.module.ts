@@ -14,8 +14,8 @@ import { PaymentMethodModule } from "./payment-method/payment-method.module";
 import { CategoryModule } from "./category/category.module";
 import { CategoryContentModule } from "./category-content/category-content.module";
 import { GenresModule } from "./genres/genres.module";
-import { GeneralImagesModule } from "./general-images/general-images.module";
 import { ContentGenresModule } from "./content-genres/content-genres.module";
+import { GenreImagesModule } from './genre-images/genre-images.module';
 
 @Module({
   imports: [
@@ -35,8 +35,8 @@ import { ContentGenresModule } from "./content-genres/content-genres.module";
     CategoryModule,
     CategoryContentModule,
     GenresModule,
-    GeneralImagesModule,
     ContentGenresModule,
+    GenreImagesModule,
   ],
   controllers: [],
   providers: [PrismaService],
