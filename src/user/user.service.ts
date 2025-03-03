@@ -38,10 +38,20 @@ export class UserService {
     });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const data: any = { ...updateUserDto };
+
+    if (updateUserDto.password) {
+      data.password_hash = await hash(
+        updateUserDto.password,
+        this.bcryptRounds
+      );
+      delete data.password;
+    }
+
     return this.prisma.user.update({
       where: { id },
-      data: updateUserDto,
+      data,
     });
   }
 

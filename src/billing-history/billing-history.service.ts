@@ -8,18 +8,21 @@ export class BillingHistoryService {
   constructor(private prisma: PrismaService) {}
 
   create(createBillingHistoryDto: CreateBillingHistoryDto) {
+    const { user_id, subscription_id, payment_method_id, ...otherData } =
+      createBillingHistoryDto;
+
     return this.prisma.billingHistory.create({
       data: {
+        ...otherData,
         user: {
-          connect: { id: createBillingHistoryDto.user_id },
+          connect: { id: user_id },
         },
         subscription: {
-          connect: { id: createBillingHistoryDto.subscription_id },
+          connect: { id: subscription_id },
         },
         paymentMethod: {
-          connect: { id: createBillingHistoryDto.payment_method_id },
+          connect: { id: payment_method_id },
         },
-        ...createBillingHistoryDto,
       },
     });
   }
