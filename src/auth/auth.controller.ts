@@ -10,33 +10,33 @@ import {
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { Response } from "express";
-
-class AuthDto {
-  email: string;
-  password: string;
-}
+import { LoginDto } from "./dto/login.dto";
+import { CreateAdminDto } from "../admin/dto/create-admin.dto";
+import { CreateUserDto } from "../user/dto/create-user.dto";
 
 @Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post("")
-  async login(@Body() authDto: AuthDto, @Res() res: Response) {
-    return this.authService.login(authDto.email, authDto.password, res);
+  @Post("signin")
+  async signin(@Body() loginDto: LoginDto, @Res() res: Response) {
+    const result = await this.authService.signin(loginDto, res);
+    return res.json(result);
   }
 
-  @Post("")
-  async register(@Body() authDto: AuthDto) {
-    return this.authService.register(authDto.email, authDto.password);
+  @Post("signup")
+  async signup(@Body() registerDto: CreateUserDto) {
+    return this.authService.signup(registerDto);
   }
 
-  @Post("admin")
-  async adminLogin(@Body() authDto: AuthDto, @Res() res: Response) {
-    return this.authService.adminLogin(authDto.email, authDto.password, res);
+  @Post("admin/signin")
+  async adminSignin(@Body() loginDto: LoginDto, @Res() res: Response) {
+    const result = await this.authService.adminSignin(loginDto, res);
+    return res.json(result);
   }
 
-  @Post("admin")
-  async adminRegister(@Body() authDto: AuthDto, @Res() res: Response) {
-    return this.authService.adminRegister(authDto.email, authDto.password);
+  @Post("admin/signup")
+  async adminSignup(@Body() registerDto: CreateAdminDto) {
+    return this.authService.adminSignup(registerDto);
   }
 }

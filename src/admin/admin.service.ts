@@ -14,9 +14,12 @@ export class AdminService {
       createAdminDto.password,
       this.bcryptRounds
     );
+
+    const { password, ...adminData } = createAdminDto;
+
     return this.prisma.admin.create({
       data: {
-        ...createAdminDto,
+        ...adminData,
         password_hash,
       },
     });

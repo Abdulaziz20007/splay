@@ -8,13 +8,25 @@ import { PrismaService } from "../prisma/prisma.service";
 import * as bcrypt from "bcrypt";
 import { User, Admin } from "@prisma/client";
 import { Response } from "express";
+import { AdminService } from "../admin/admin.service";
+import { UserService } from "../user/user.service";
+import { CreateUserDto } from "../user/dto/create-user.dto";
+import { CreateAdminDto } from "../admin/dto/create-admin.dto";
+import { LoginDto } from "./dto/login.dto";
 
 @Injectable()
 export class AuthService {
   constructor(
     private prismaService: PrismaService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private adminService: AdminService,
+    private userService: UserService
   ) {}
+
+  COOKIE_OPTIONS = {
+    httpOnly: true,
+    maxAge: Number(process.env.COOKIE_TIME) || 15 * 24 * 60 * 60 * 1000,
+  };
 
   async getTokens(user: User | Admin, isAdmin: boolean = false) {
     const payload = {
@@ -25,31 +37,34 @@ export class AuthService {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
         secret: isAdmin
-          ? process.env.ADMIN_ACCESS_TOKEN_KEY
-          : process.env.USER_ACCESS_TOKEN_KEY,
-        expiresIn: process.env.ACCESS_TOKEN_TIME,
+          ? process.env.ADMIN_ACCESS_KEY
+          : process.env.USER_ACCESS_KEY,
+        expiresIn: process.env.ACCESS_TIME,
       }),
 
       this.jwtService.signAsync(payload, {
         secret: isAdmin
-          ? process.env.ADMIN_REFRESH_TOKEN_KEY
-          : process.env.USER_REFRESH_TOKEN_KEY,
-        expiresIn: process.env.REFRESH_TOKEN_TIME,
+          ? process.env.ADMIN_REFRESH_KEY
+          : process.env.USER_REFRESH_KEY,
+        expiresIn: process.env.REFRESH_TIME,
       }),
     ]);
 
     return { accessToken, refreshToken };
   }
 
-  async login(email: string, password: string, res: Response) {
-    const user = await this.prismaService.user.findUnique({ where: { email } });
+  async signin(loginDto: LoginDto, res: Response) {
+    const user = await this.userService.findByEmail(loginDto.email);
     if (!user) {
-      throw new UnauthorizedException("User topilmadi");
+      throw new UnauthorizedException("Email yoki parol noto'g'ri");
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password_hash);
-    if (!isPasswordValid) {
-      throw new UnauthorizedException("Parol noto'g'ri");
+    const checkPassword = await bcrypt.compare(
+      loginDto.password,
+      user.password_hash
+    );
+    if (!checkPassword) {
+      throw new UnauthorizedException("Email yoki parol noto'g'ri");
     }
 
     if (!user.is_active) {
@@ -58,11 +73,7 @@ export class AuthService {
 
     const tokens = await this.getTokens(user, false);
 
-    res.cookie("accessToken", tokens.accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 15 * 24 * 60 * 60 * 1000,
-    });
+    res.cookie("refreshToken", tokens.refreshToken, this.COOKIE_OPTIONS);
 
     return {
       accessToken: tokens.accessToken,
@@ -70,53 +81,46 @@ export class AuthService {
     };
   }
 
-  async register(email: string, password: string) {
-    const user = await this.prismaService.user.findUnique({
-      where: { email },
-    });
+  async signup(registerDto: CreateUserDto) {
+    const user = await this.userService.findByEmail(registerDto.email);
 
     if (user) {
-      throw new ConflictException("Email allaqachon mavjud");
+      throw new ConflictException("Email avval ro'yxatdan otgan");
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await this.prismaService.user.create({
-      data: {
-        email,
-        password_hash: hashedPassword,
-        is_active: true,
-      },
-    });
+    const createUserDto: CreateUserDto = {
+      email: registerDto.email,
+      password: registerDto.password,
+    };
 
-    const payload = {
+    const newUser = await this.userService.create(createUserDto);
+
+    const response = {
       id: newUser.id,
       email: newUser.email,
+      is_active: newUser.is_active,
     };
 
-    return {
-      accessToken: await this.jwtService.signAsync(payload),
-      userId: newUser.id,
-    };
+    return response;
   }
 
-  async adminLogin(email: string, password: string, res: Response) {
-    const admin = await this.prismaService.admin.findUnique({
-      where: { email },
-    });
+  async adminSignin(loginDto: LoginDto, res: Response) {
+    const admin = await this.adminService.findByEmail(loginDto.email);
     if (!admin) {
       throw new UnauthorizedException("Admin topilmadi");
     }
 
-    const isPasswordValid = await bcrypt.compare(password, admin.password_hash);
+    const isPasswordValid = await bcrypt.compare(
+      loginDto.password,
+      admin.password_hash
+    );
     if (!isPasswordValid) {
       throw new UnauthorizedException("Parol noto'g'ri");
     }
 
     const tokens = await this.getTokens(admin, true);
 
-    res.cookie("accessToken", tokens.accessToken, {
-      httpOnly: true,
-    });
+    res.cookie("refreshToken", tokens.refreshToken, this.COOKIE_OPTIONS);
 
     return {
       accessToken: tokens.accessToken,
@@ -124,23 +128,29 @@ export class AuthService {
     };
   }
 
-  async adminRegister(email: string, password: string) {
-    const exists = await this.prismaService.admin.findUnique({
-      where: { email },
-    });
+  async adminSignup(registerDto: CreateAdminDto) {
+    const existingAdmin = await this.adminService.findByEmail(
+      registerDto.email
+    );
 
-    if (exists) {
+    if (existingAdmin) {
       throw new ConflictException("Email allaqachon mavjud");
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const admin = await this.prismaService.admin.create({
-      data: {
-        email,
-        password_hash: hashedPassword,
-        username: email,
-        first_name: email,
-      },
-    });
+    const createAdminDto: CreateAdminDto = {
+      email: registerDto.email,
+      password: registerDto.password,
+      first_name: registerDto.first_name,
+      last_name: registerDto.last_name,
+    };
+
+    const admin = await this.adminService.create(createAdminDto);
+    const response = {
+      id: admin.id,
+      first_name: admin.first_name,
+      last_name: admin.last_name,
+      email: admin.email,
+    };
+    return response;
   }
 }
