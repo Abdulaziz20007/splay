@@ -1,0 +1,1184 @@
+{
+  "info": {
+    "name": "API Collection",
+    "description": "Collection for all API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "User Sign In",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/signin",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "signin"]
+            }
+          }
+        },
+        {
+          "name": "User Sign Up",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"newuser@example.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/signup",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "signup"]
+            }
+          }
+        },
+        {
+          "name": "Admin Sign In",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/admin/signin",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "admin", "signin"]
+            }
+          }
+        },
+        {
+          "name": "Admin Sign Up",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"newadmin@example.com\",\n    \"password\": \"admin123\",\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/admin/signup",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "admin", "signup"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user",
+              "host": ["{{baseUrl}}"],
+              "path": ["user"]
+            }
+          }
+        },
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/user",
+              "host": ["{{baseUrl}}"],
+              "path": ["user"]
+            }
+          }
+        },
+        {
+          "name": "Get By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/user/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update By Id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"updated@example.com\",\n    \"password\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/user/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"admin123\",\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin"]
+            }
+          }
+        },
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin"]
+            }
+          }
+        },
+        {
+          "name": "Get By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update By Id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"updated@example.com\",\n    \"password\": \"newadmin123\",\n    \"first_name\": \"Jane\",\n    \"last_name\": \"Smith\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"User Profile\",\n    \"user_id\": 1,\n    \"language_id\": 1,\n    \"age\": 25,\n    \"password\": \"profilepass123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["profile"]
+            }
+          }
+        },
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["profile"]
+            }
+          }
+        },
+        {
+          "name": "Get By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/profile/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["profile", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update By Id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Updated Profile\",\n    \"age\": 26,\n    \"password\": \"newprofilepass\",\n    \"avatar\": \"https://example.com/avatar.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/profile/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["profile", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/profile/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["profile", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Language",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"English\",\n    \"description\": \"English language\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/language",
+              "host": ["{{baseUrl}}"],
+              "path": ["language"]
+            }
+          }
+        },
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/language",
+              "host": ["{{baseUrl}}"],
+              "path": ["language"]
+            }
+          }
+        },
+        {
+          "name": "Get By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/language/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["language", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update By Id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Updated English\",\n    \"description\": \"Updated English language description\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/language/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["language", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/language/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["language", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subscription",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"profile_id\": 1,\n    \"plan_id\": 1,\n    \"auto_renew\": true,\n    \"last_amount_paid\": 1299,\n    \"subscription_source\": \"web\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/subscription",
+              "host": ["{{baseUrl}}"],
+              "path": ["subscription"]
+            }
+          }
+        },
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/subscription",
+              "host": ["{{baseUrl}}"],
+              "path": ["subscription"]
+            }
+          }
+        },
+        {
+          "name": "Get By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/subscription/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["subscription", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update By Id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"auto_renew\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/subscription/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["subscription", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/subscription/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["subscription", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subscription Plans",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Premium\",\n    \"description\": \"Premium subscription plan\",\n    \"monthly_price\": 1299,\n    \"max_profile\": 5,\n    \"max_screen\": 4,\n    \"download_enabled\": true,\n    \"ads_enabled\": false,\n    \"is_active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/subscription-plans",
+              "host": ["{{baseUrl}}"],
+              "path": ["subscription-plans"]
+            }
+          }
+        },
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/subscription-plans",
+              "host": ["{{baseUrl}}"],
+              "path": ["subscription-plans"]
+            }
+          }
+        },
+        {
+          "name": "Get By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/subscription-plans/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["subscription-plans", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update By Id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"monthly_price\": 1499,\n    \"max_profile\": 6\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/subscription-plans/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["subscription-plans", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/subscription-plans/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["subscription-plans", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Billing History",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": 1,\n    \"subscription_id\": 1,\n    \"payment_method_id\": 1,\n    \"amount\": 1299,\n    \"status\": \"completed\",\n    \"created_at\": \"2023-01-01T12:00:00.000Z\",\n    \"updated_at\": \"2023-01-01T12:00:00.000Z\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/billing-history",
+              "host": ["{{baseUrl}}"],
+              "path": ["billing-history"]
+            }
+          }
+        },
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/billing-history",
+              "host": ["{{baseUrl}}"],
+              "path": ["billing-history"]
+            }
+          }
+        },
+        {
+          "name": "Get By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/billing-history/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["billing-history", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update By Id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"refunded\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/billing-history/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["billing-history", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/billing-history/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["billing-history", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payment Method",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Credit Card\",\n    \"description\": \"Credit card payment method\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payment-method",
+              "host": ["{{baseUrl}}"],
+              "path": ["payment-method"]
+            }
+          }
+        },
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/payment-method",
+              "host": ["{{baseUrl}}"],
+              "path": ["payment-method"]
+            }
+          }
+        },
+        {
+          "name": "Get By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/payment-method/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["payment-method", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update By Id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Visa Credit Card\",\n    \"description\": \"Visa credit card payment method\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payment-method/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["payment-method", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/payment-method/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["payment-method", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Category",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Movies\",\n    \"description\": \"Movie category\",\n    \"parentCategoryId\": null\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/category",
+              "host": ["{{baseUrl}}"],
+              "path": ["category"]
+            }
+          }
+        },
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/category",
+              "host": ["{{baseUrl}}"],
+              "path": ["category"]
+            }
+          }
+        },
+        {
+          "name": "Get By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/category/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["category", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update By Id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Feature Films\",\n    \"description\": \"Feature length films\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/category/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["category", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/category/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["category", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Category Content",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"category_id\": 1,\n    \"content_id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/category-content",
+              "host": ["{{baseUrl}}"],
+              "path": ["category-content"]
+            }
+          }
+        },
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/category-content",
+              "host": ["{{baseUrl}}"],
+              "path": ["category-content"]
+            }
+          }
+        },
+        {
+          "name": "Get By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/category-content/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["category-content", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update By Id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"category_id\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/category-content/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["category-content", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/category-content/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["category-content", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Genres",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Action\",\n    \"description\": \"Action genre\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/genres",
+              "host": ["{{baseUrl}}"],
+              "path": ["genres"]
+            }
+          }
+        },
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/genres",
+              "host": ["{{baseUrl}}"],
+              "path": ["genres"]
+            }
+          }
+        },
+        {
+          "name": "Get By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/genres/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["genres", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update By Id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Action & Adventure\",\n    \"description\": \"Action and adventure genre\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/genres/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["genres", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/genres/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["genres", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Content Genres",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"content_id\": 1,\n    \"genre_id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/content-genres",
+              "host": ["{{baseUrl}}"],
+              "path": ["content-genres"]
+            }
+          }
+        },
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/content-genres",
+              "host": ["{{baseUrl}}"],
+              "path": ["content-genres"]
+            }
+          }
+        },
+        {
+          "name": "Get By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/content-genres/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["content-genres", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update By Id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"genre_id\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/content-genres/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["content-genres", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/content-genres/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["content-genres", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Genre Images",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"image_url\": \"https://example.com/images/action.jpg\",\n    \"genre_id\": 1,\n    \"is_main\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/genre-images",
+              "host": ["{{baseUrl}}"],
+              "path": ["genre-images"]
+            }
+          }
+        },
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/genre-images",
+              "host": ["{{baseUrl}}"],
+              "path": ["genre-images"]
+            }
+          }
+        },
+        {
+          "name": "Get By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/genre-images/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["genre-images", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update By Id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"image_url\": \"https://example.com/images/action-updated.jpg\",\n    \"is_main\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/genre-images/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["genre-images", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/genre-images/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["genre-images", "1"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3030/api",
+      "type": "string"
+    }
+  ]
+} 
