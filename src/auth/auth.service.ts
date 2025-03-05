@@ -2,6 +2,7 @@ import {
   Injectable,
   UnauthorizedException,
   ConflictException,
+  BadRequestException,
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "../prisma/prisma.service";
@@ -152,5 +153,49 @@ export class AuthService {
       email: admin.email,
     };
     return response;
+  }
+
+  async signOut(userId: number, res: Response) {
+    res.clearCookie("refreshToken");
+    return { message: "Tizimdan chiqdingiz" };
+  }
+
+  async signOutAdmin(refreshToken: string, res: Response) {
+    res.clearCookie("refreshToken");
+    return { message: "Tizimdan chiqdingiz" };
+  }
+
+  async refreshToken(userId: number, refreshToken: string, res: Response) {
+    res.clearCookie("refreshToken");
+
+    const user = await this.userService.findOne(userId);
+    if (!user) {
+      throw new UnauthorizedException("User not found");
+    }
+
+    const tokens = await this.getTokens(user, false);
+    res.cookie("refreshToken", tokens.refreshToken, this.COOKIE_OPTIONS);
+
+    return {
+      accessToken: tokens.accessToken,
+      userId: user.id,
+    };
+  }
+
+  async refreshTokenAdmin(userId: number, refreshToken: string, res: Response) {
+    res.clearCookie("refreshToken");
+
+    const admin = await this.adminService.findOne(userId);
+    if (!admin) {
+      throw new UnauthorizedException("Admin not found");
+    }
+
+    const tokens = await this.getTokens(admin, true);
+    res.cookie("refreshToken", tokens.refreshToken, this.COOKIE_OPTIONS);
+
+    return {
+      accessToken: tokens.accessToken,
+      userId: admin.id,
+    };
   }
 }
