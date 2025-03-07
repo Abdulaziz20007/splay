@@ -15,7 +15,9 @@ import { CategoryModule } from "./category/category.module";
 import { CategoryContentModule } from "./category-content/category-content.module";
 import { GenresModule } from "./genres/genres.module";
 import { ContentGenresModule } from "./content-genres/content-genres.module";
-import { GenreImagesModule } from './genre-images/genre-images.module';
+import { GenreImagesModule } from "./genre-images/genre-images.module";
+import { APP_GUARD } from "@nestjs/core";
+import { AccessTokenGuard, AccessTokenAdminGuard } from "./common/guards";
 
 @Module({
   imports: [
@@ -39,6 +41,12 @@ import { GenreImagesModule } from './genre-images/genre-images.module';
     GenreImagesModule,
   ],
   controllers: [],
-  providers: [PrismaService],
+  providers: [
+    PrismaService,
+    {
+      provide: APP_GUARD,
+      useClass: AccessTokenGuard,
+    },
+  ],
 })
 export class AppModule {}

@@ -10,6 +10,7 @@ import {
 import { CategoryService } from "./category.service";
 import { CreateCategoryDto } from "./dto/create-category.dto";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
+import { Public } from "../common/decorators";
 
 @Controller("category")
 export class CategoryController {
@@ -20,11 +21,13 @@ export class CategoryController {
     return this.categoryService.create(createCategoryDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.categoryService.findAll();
   }
 
+  @Public()
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.categoryService.findOne(+id);

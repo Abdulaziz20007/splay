@@ -1,9 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { BillingHistoryService } from './billing-history.service';
-import { CreateBillingHistoryDto } from './dto/create-billing-history.dto';
-import { UpdateBillingHistoryDto } from './dto/update-billing-history.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from "@nestjs/common";
+import { BillingHistoryService } from "./billing-history.service";
+import { CreateBillingHistoryDto } from "./dto/create-billing-history.dto";
+import { UpdateBillingHistoryDto } from "./dto/update-billing-history.dto";
 
-@Controller('billing-history')
+@Controller("billing-history")
 export class BillingHistoryController {
   constructor(private readonly billingHistoryService: BillingHistoryService) {}
 
@@ -17,18 +25,21 @@ export class BillingHistoryController {
     return this.billingHistoryService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.billingHistoryService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBillingHistoryDto: UpdateBillingHistoryDto) {
+  @Patch(":id")
+  update(
+    @Param("id") id: string,
+    @Body() updateBillingHistoryDto: UpdateBillingHistoryDto
+  ) {
     return this.billingHistoryService.update(+id, updateBillingHistoryDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.billingHistoryService.remove(+id);
   }
 }
